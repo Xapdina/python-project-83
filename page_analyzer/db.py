@@ -11,8 +11,8 @@ class DbManager:
         def flag(func):
             def inner(self, *args, **kwargs):
                 try:
-                    with psycopg2.connect(self.app.config['DATABASE_URL']) as conn:
-                        with conn.cursor(cursor_factory=NamedTupleCursor) as cursor:
+                    with psycopg2.connect(self.app.config['DATABASE_URL']) as conn: # noqa
+                        with conn.cursor(cursor_factory=NamedTupleCursor) as cursor: # noqa
                             result = func(self, cursor, *args, **kwargs)
                             if commit:
                                 conn.commit()
