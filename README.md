@@ -1,10 +1,13 @@
 ### Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/Xapdina/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Xapdina/python-project-83/actions)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/4e53a9e945434005fb08/maintainability)](https://codeclimate.com/github/Xapdina/python-project-83/maintainability)
+
 [![Actions Status](https://github.com/Xapdina/python-project-83/actions/workflows/flake8_lint.yml/badge.svg)](https://github.com/Xapdina/python-project-83/actions)
 
 ### Project: Page analyzer
+[![asciicast](https://github.com/Xapdina/python-project-83/blob/main/gif/example.gif)](https://github.com/Xapdina/python-project-83/blob/main/gif/example.gif)
 
 The "Page Analyzer" project is a web application developed based on the Python Flask framework and containerization
 using Docker.
@@ -27,8 +30,6 @@ This tool allows for the analysis of web pages.
 | python-dotenv  | ^1.0.1  |
 |   validators   | ^0.28.2 |
 |    gunicorn    | ^21.2.0 |
-
-21.2.0
 
 #### You need that commands
 
@@ -70,9 +71,3 @@ python3 -m pip uninstall hexlet-code
 
 ___
 *P.S.* *You must have [Poetry](https://python-poetry.org) installed*
-
-### How it's work
-
-https://github.com/Xapdina/python-project-83/blob/main/gif/example.gif
-
-
