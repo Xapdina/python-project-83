@@ -2,6 +2,7 @@
 
 [![Actions Status](https://github.com/Xapdina/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Xapdina/python-project-83/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/4e53a9e945434005fb08/maintainability)](https://codeclimate.com/github/Xapdina/python-project-83/maintainability)
+[![Actions Status](https://github.com/Xapdina/python-project-83/actions/workflows/flake8_lint.yml/badge.svg)](https://github.com/Xapdina/python-project-83/actions)
 
 ### Project: Page analyzer
 
@@ -72,8 +73,6 @@ ___
 
 ### How it's work
 
-- [ ] gif - in progress
+https://github.com/Xapdina/python-project-83/blob/main/gif/example.gif
 
 
-
-/Users/daniilbagaturia/Project/python-project-83/gif/example.gif
