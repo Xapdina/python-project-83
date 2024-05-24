@@ -68,7 +68,7 @@ def urls():
     return render_template('urls/details.html', urls=all_urls)
 
 
-@app.get('/urls/<int:id>')
+@app.get('/urls/<id>')
 def get_url_list(id):
     url = db_manager.get_url_from_urls_list(id)
 
@@ -80,7 +80,7 @@ def get_url_list(id):
                            url=url, checks_list=check_records)
 
 
-@app.post('/urls/<int:url_id>/check')
+@app.post('/urls/<url_id>/check')
 def check_url(url_id):
     url_record = db_manager.get_url_from_urls_list(url_id)
 

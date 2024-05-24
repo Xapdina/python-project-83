@@ -1,6 +1,5 @@
 import psycopg2
 from psycopg2.extras import NamedTupleCursor
-import datetime
 
 
 class DbManager:
@@ -8,57 +7,49 @@ class DbManager:
         self.app = app
 
     @staticmethod
-    def execute_in_db(func):
-        def inner(*args, **kwargs):
-            with psycopg2.connect(args[0].app.config['DATABASE_URL']) as conn:
-                with conn.cursor(cursor_factory=NamedTupleCursor) as cursor:
-                    result = func(cursor=cursor, *args, **kwargs)
-                    conn.commit()
-                    return result
+    def exec_with_in_db(commit):
+        def flag(func):
+            def inner(self, *args, **kwargs):
+                try:
+                    with psycopg2.connect(self.app.config['DATABASE_URL']) as conn:
+                        with conn.cursor(cursor_factory=NamedTupleCursor) as cursor:
+                            result = func(self, cursor, *args, **kwargs)
+                            if commit:
+                                conn.commit()
+                                return result
+                            else:
+                                conn.commit()
+                                return result
+                except psycopg2.Error as e:
+                    print(f'Ошибка при выполнении транзакции: {e}')
+                    raise e
 
-        return inner
+            return inner
 
-    @staticmethod
-    def with_commit(func):
-        def inner(self, *args, **kwargs):
-            try:
-                with psycopg2.connect(self.app.config['DATABASE_URL']) as connection: # noqa
-                    cursor = connection.cursor(cursor_factory=NamedTupleCursor)
-                    result = func(self, cursor, *args, **kwargs)
-                    connection.commit()
-                    return result
-            except psycopg2.Error as e:
-                print(f'Ошибка при выполнении транзакции: {e}')
-                raise e
+        return flag
 
-        return inner
-
-    @with_commit
+    @exec_with_in_db(commit=True)
     def insert_url_in_db(self, cursor, url):
-        date = datetime.date.today()
         cursor.execute(
-            "INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING *",
-            (url, date)
+            "INSERT INTO urls (name) VALUES (%s) RETURNING *",
+            (url,)
         )
         url_data = cursor.fetchone()
         return url_data
 
-    @with_commit
+    @exec_with_in_db(commit=True)
     def insert_url_check_in_db(self, cursor, check):
-        date = datetime.date.today()
         cursor.execute(
             "INSERT INTO url_checks ("
             "url_id, "
-            "created_at, "
             "status_code, "
             "h1, "
             "title, "
             "description"
             ") "
-            "VALUES (%s, %s, %s, %s, %s, %s)",
+            "VALUES (%s, %s, %s, %s, %s)",
             (
                 check['url_id'],
-                date,
                 check['response'],
                 check["h1"],
                 check['title'],
@@ -66,15 +57,14 @@ class DbManager:
             )
         )
 
-    @execute_in_db
-    def get_url_from_urls_list(self, url_id, cursor):
+    @exec_with_in_db(commit=False)
+    def get_url_from_urls_list(self, cursor, url_id):
         cursor.execute("SELECT * FROM urls WHERE id=%s", (url_id,))
         desired_url = cursor.fetchone()
-
         return desired_url if desired_url else False
 
-    @execute_in_db
-    def get_url_from_urls_checks_list(self, url_id, cursor):
+    @exec_with_in_db(commit=False)
+    def get_url_from_urls_checks_list(self, cursor, url_id):
         cursor.execute(
             "SELECT * FROM url_checks WHERE url_id=%s ORDER BY id DESC",
             (url_id,)
@@ -83,14 +73,14 @@ class DbManager:
 
         return result
 
-    @execute_in_db
-    def get_url_by_name(self, url, cursor):
+    @exec_with_in_db(commit=True)
+    def get_url_by_name(self, cursor, url):
         cursor.execute("SELECT * FROM urls WHERE name=%s", (url,))
         url_id = cursor.fetchone()
 
         return url_id.id if url_id else None
 
-    @execute_in_db
+    @exec_with_in_db(commit=False)
     def get_urls_list(self, cursor):
         query = (
             "SELECT DISTINCT ON (urls.id) urls.id AS id, "

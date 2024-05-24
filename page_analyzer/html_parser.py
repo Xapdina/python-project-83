@@ -15,11 +15,11 @@ class HTMLParser:
         return h1_tag.string if h1_tag else None
 
     def get_content(self):
-        for meta in self.soup.find_all('meta'):
-            if meta.get('name') == 'description':
-                content = meta.get('content')
-                return content[:255]
-        return None
+        content = [meta.get('content')
+                   for meta in self.soup.find_all('meta')
+                   if meta.get('name') == 'description'
+                   ]
+        return content[0][:255] if content else None
 
     def get_page_data(self):
         result = {
