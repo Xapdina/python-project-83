@@ -15,9 +15,5 @@ start:
 build:
 	./build.sh
 
-db-connect:
-	docker exec -it page_analyzer psql -U pguser -d pgdb
-
 db-enter:
-	docker-compose up -d --force-recreate
-
+	docker exec -it page_analyzer psql -U pguser -d pgdb

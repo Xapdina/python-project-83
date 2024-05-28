@@ -8,14 +8,9 @@ from page_analyzer.html_parser import HTMLParser
 from page_analyzer.utils import normalize_url, validate_url
 import os
 import requests
+from dotenv import load_dotenv
 
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except ModuleNotFoundError:
-    pass
-
+load_dotenv()
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')

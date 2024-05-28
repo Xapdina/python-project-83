@@ -19,17 +19,11 @@ This tool allows for the analysis of web pages.
 |:--------------:|:-------:|
 |     Python     | ^3.11.0 |
 |     Flask      | ^3.0.3  |
-|     Jinja2     | ^3.1.4  |
 |     Docker     | ^7.1.0  |
-|     poetry     | ^1.8.3  |
-|     flake8     | ^7.0.0  |
-|    gunicorn    | ^21.2.0 |
 |    psycopg2    | ^2.9.9  |
 |      PSQL      | ^16.1.0 |
 | beautifulsoup4 | ^4.12.3 |
-| python-dotenv  | ^1.0.1  |
-|   validators   | ^0.28.2 |
-|    gunicorn    | ^21.2.0 |
+
 
 #### You need that commands
 
@@ -38,12 +32,6 @@ Download project
 
 ```shell
 git clone git@github.com:Xapdina/python-project-83.git
-```
-
-or
-
-```shell
-python3 -m pip install --user git+https://github.com/Xapdina/python-project-83.git
 ```
 
 ___
